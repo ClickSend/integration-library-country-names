@@ -1,0 +1,17 @@
+{
+    "name": "eissaweb/countrynames",
+    "description": "Utility library to turn country names into ISO two-letter codes.",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "CountryNames\\": "lib/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Eissaweb",
+            "email": "eissaweb@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
