@@ -3,6 +3,9 @@ namespace CountryNames;
 
 class CountryNames
 {
+    /**
+     * @property $data the static property that holds associative arrary countryname => code
+     */
     public static $data = [];
     /**
      * @method _read_data will read and generate country list data using php generators
@@ -48,6 +51,15 @@ class CountryNames
         $cache_dir = __DIR__  . '/data/cache.php';
         if (! file_exists($cache_dir))
             file_put_contents($cache_dir, serialize(self::$data));
+    }
+    /**
+     * @method _delete_cache this method will delete cache.php in data folder
+     */
+    public static function _delete_cache()
+    {
+        $cache_dir = __DIR__ . '/data/cache.php';
+        if (file_exists($cache_dir))
+            unlink($cache_dir);
     }
     /**
      * @method _normalize_name returns transliterated char to latin and lower case
