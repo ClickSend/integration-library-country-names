@@ -37,7 +37,8 @@ To use the library as a composer package, see below.
 First clone the repo to vendor directory in your project, then run composer autoload-dump command
 ```bash 
 $ git clone https://github.com/eissaweb/countrynames.git   your-project-path/vendor/countrynames
-
+```
+```bash
 $ composer autoload-dump
 ```
 
