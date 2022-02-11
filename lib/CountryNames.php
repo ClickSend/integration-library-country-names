@@ -41,7 +41,7 @@ class CountryNames
     /**
      * @method _load_data will load data to self::$data property and/or cache the data
      */
-    private static function _load_data()
+    public static function _load_data()
     {
         if (self::$data)
             return;
