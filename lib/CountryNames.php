@@ -71,7 +71,7 @@ class CountryNames
      */
     public static function _normalize_name($str)
     {
-        return transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $str);
+        return trim(transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $str));
     }
     /**
      * @method _fuzzy_search is for matching the closest spelling mistake in a countryname
