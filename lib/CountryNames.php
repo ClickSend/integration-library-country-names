@@ -4,16 +4,20 @@ namespace CountryNames;
 class CountryNames
 {
     /**
-     * @property $data the static property that holds associative arrary countryname => code
+     * @property $data the static property that holds associative array countryname => code
      */
     public static $data = [];
+    /**
+     * @property $cache_dir path to cached file
+     */
+    private static $cache_dir = __DIR__ . '/data/cache.php';
     /**
      * @method _read_data will read and generate country list data using php generators
      */
     private static function _read_data()
     {
 
-        $cache_dir = __DIR__  . '/data/cache.php';
+        $cache_dir = self::$cache_dir;
         if (file_exists($cache_dir)) {
             // get data from cache
             $data = unserialize(file_get_contents($cache_dir));
@@ -48,7 +52,7 @@ class CountryNames
         foreach (self::_read_data() as $code => $norm)
             self::$data[$norm] = $code;
         // cache the data 
-        $cache_dir = __DIR__  . '/data/cache.php';
+        $cache_dir = self::$cache_dir;
         if (! file_exists($cache_dir))
             file_put_contents($cache_dir, serialize(self::$data));
     }
@@ -57,7 +61,7 @@ class CountryNames
      */
     public static function _delete_cache()
     {
-        $cache_dir = __DIR__ . '/data/cache.php';
+        $cache_dir = self::$cache_dir;
         if (file_exists($cache_dir))
             unlink($cache_dir);
     }
