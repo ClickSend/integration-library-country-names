@@ -172,7 +172,7 @@ class CountryNames
         $best_code = null;
         $best_distance = null;
         foreach (self::$data as $cand => $code):
-            if (strlen($cand) <= 4)
+            if (mb_strlen($cand, 'UTF-8') <= 4)
                 continue;
             $distance = levenshtein($cand, $name);
             
@@ -182,7 +182,7 @@ class CountryNames
             }
         endforeach;
        
-        if (is_null($best_distance) || $best_distance > (strlen($name) * 0.15) )
+        if (is_null($best_distance) || $best_distance > (mb_strlen($name, 'UTF-8') * 0.15) )
             return null;
         
         return $best_code;
@@ -245,7 +245,7 @@ class CountryNames
     {
         $code = self::to_code($countryName, $fuzzy);
         
-        if ($code && strlen($code) > 2) {
+        if ($code && mb_strlen($code, 'UTF-8') > 2) {
             return $code;
         } elseif ($code == null) {
             return $code;
