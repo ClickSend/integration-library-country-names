@@ -245,12 +245,10 @@ class CountryNames
     {
         $code = self::to_code($countryName, $fuzzy);
         
-        if ($code && mb_strlen($code, 'UTF-8') > 2) {
+        if ($code && mb_strlen($code, 'UTF-8') > 2) 
             return $code;
-        } elseif ($code == null) {
+        elseif ($code == null)
             return $code;
-        } else {
-            return self::_mappings($code);
-        }
+        return self::_mappings($code);
     }
 }
