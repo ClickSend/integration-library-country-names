@@ -4,6 +4,79 @@ namespace CountryNames;
 class CountryNames
 {
     /**
+     * @const UNICODE_CATEGORIES 
+     * associative array, keys are the values returned from \IntlChar::charType method, so we map them and 
+     * get the actual code, so to take action on it.
+     */
+    const UNICODE_CATEGORIES = [
+        \IntlChar::CHAR_CATEGORY_UNASSIGNED => 'Cn',
+        \IntlChar::CHAR_CATEGORY_UPPERCASE_LETTER => 'Lu',
+        \IntlChar::CHAR_CATEGORY_LOWERCASE_LETTER => 'Ll',
+        \IntlChar::CHAR_CATEGORY_TITLECASE_LETTER => 'Lt',
+        \IntlChar::CHAR_CATEGORY_MODIFIER_LETTER => 'Lm',
+        \IntlChar::CHAR_CATEGORY_OTHER_LETTER => 'Lo',
+        \IntlChar::CHAR_CATEGORY_NON_SPACING_MARK => 'Mn',
+        \IntlChar::CHAR_CATEGORY_ENCLOSING_MARK => 'Me',
+        \IntlChar::CHAR_CATEGORY_COMBINING_SPACING_MARK => 'Mc',
+        \IntlChar::CHAR_CATEGORY_DECIMAL_DIGIT_NUMBER => 'Nd',
+        \IntlChar::CHAR_CATEGORY_LETTER_NUMBER => 'Nl',
+        \IntlChar::CHAR_CATEGORY_OTHER_NUMBER => 'No',
+        \IntlChar::CHAR_CATEGORY_SPACE_SEPARATOR => 'Zs',
+        \IntlChar::CHAR_CATEGORY_LINE_SEPARATOR => 'Zl',
+        \IntlChar::CHAR_CATEGORY_PARAGRAPH_SEPARATOR => 'Zp',
+        \IntlChar::CHAR_CATEGORY_CONTROL_CHAR => 'Cc',
+        \IntlChar::CHAR_CATEGORY_FORMAT_CHAR => 'Cf',
+        \IntlChar::CHAR_CATEGORY_PRIVATE_USE_CHAR => 'Co',
+        \IntlChar::CHAR_CATEGORY_SURROGATE => 'Cs',
+        \IntlChar::CHAR_CATEGORY_DASH_PUNCTUATION => 'Pd',
+        \IntlChar::CHAR_CATEGORY_START_PUNCTUATION => 'Ps',
+        \IntlChar::CHAR_CATEGORY_END_PUNCTUATION => 'Pe',
+        \IntlChar::CHAR_CATEGORY_CONNECTOR_PUNCTUATION => 'Pc',
+        \IntlChar::CHAR_CATEGORY_OTHER_PUNCTUATION => 'Po',
+        \IntlChar::CHAR_CATEGORY_MATH_SYMBOL => 'Sm',
+        \IntlChar::CHAR_CATEGORY_CURRENCY_SYMBOL => 'Sc',
+        \IntlChar::CHAR_CATEGORY_MODIFIER_SYMBOL => 'Sk',
+        \IntlChar::CHAR_CATEGORY_OTHER_SYMBOL => 'So',
+        \IntlChar::CHAR_CATEGORY_INITIAL_PUNCTUATION => 'Pi',
+        \IntlChar::CHAR_CATEGORY_FINAL_PUNCTUATION => 'Pf'
+    ];
+    /**
+     * @const WS white space
+     */
+    const WS = " ";
+    /**
+     * @const list of characters to be replaced in the _normalize_name by their unicodedata category/property
+     */
+    const UNICODE_REPLACEMENTS = [
+        "Cc" => self::WS,
+        "Cf" => '',
+        "Cs" => '',
+        "Co" => '',
+        "Cn" => '',
+        "Lm" => '',
+        "Mn" => '',
+        "Mc" => self::WS,
+        "Me" => '',
+        "No" => '',
+        "Zs" => self::WS,
+        "Zl" => self::WS,
+        "Zp" => self::WS,
+        "Pc" => self::WS,
+        "Pd" => self::WS,
+        "Ps" => self::WS,
+        "Pe" => self::WS,
+        "Pi" => self::WS,
+        "Pf" => self::WS,
+        "Po" => self::WS,
+        "Sm" => self::WS,
+        "Sc" => '',
+        "Sk" => '',
+        "So" => self::WS,
+        "Zs" => self::WS,
+        "Zl" => self::WS,
+        "Zp" => self::WS,
+    ];
+    /**
      * @property $data the static property that holds associative array countryname => code
      */
     public static $data = [];
@@ -40,7 +113,6 @@ class CountryNames
                     yield $code => $norm_name;
             }
         }
-        unset($data);
     }
     /**
      * @method _load_data will load data to self::$data property and/or cache the data
@@ -71,7 +143,23 @@ class CountryNames
      */
     public static function _normalize_name($str)
     {
-        return trim(transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $str));
+        $clean = trim(transliterator_transliterate('Any-Latin; Lower()', $str));
+
+        // replace anything that's not real text
+        $clean = normalizer_normalize($clean, \Normalizer::FORM_KD);
+        if (! is_string($clean))
+            return null;
+        $len = mb_strlen($clean, 'UTF-8');
+        $characters = [];
+        for ($i = 0; $i < $len; $i++):
+            $char = mb_substr($clean, $i, 1, 'UTF-8');
+            $cat = self::UNICODE_CATEGORIES[\IntlChar::charType($char)];
+            $replacement = isset(self::UNICODE_REPLACEMENTS[$cat]) ? self::UNICODE_REPLACEMENTS[$cat]: $char;
+            if ($replacement)
+                $characters[] = $replacement;
+        endfor;
+        $clean = implode('', $characters);
+        return trim(preg_replace('/\s+/', ' ', $clean));
     }
     /**
      * @method _fuzzy_search is for matching the closest spelling mistake in a countryname
