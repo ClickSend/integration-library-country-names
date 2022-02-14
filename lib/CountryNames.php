@@ -98,8 +98,9 @@ class CountryNames
             unset($data);
             return;
         }
-        $data = file_get_contents(__DIR__ . '/data/countries.json');
-        $data = json_decode($data, true);
+        $data_path = __DIR__ . '/data/data.yaml';
+        $data = yaml_parse_file($data_path);
+        
         
         foreach ($data as $code => $names) {
             $code = trim( strtoupper($code) );
