@@ -6,7 +6,6 @@ final class CountryToCodeTest extends TestCase
 {
     public function testToCode(): void
     {
-        echo phpversion();
         $this->assertEquals('DE', CountryNames::to_code('Germany'));
         $this->assertEquals('GB', CountryNames::to_code('UK'));
         $this->assertEquals('MK', CountryNames::to_code('North Macedonia'));
