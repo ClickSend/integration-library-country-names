@@ -81,6 +81,10 @@ class CountryNames
      */
     public static $data = [];
     /**
+     * @property $mappings the static property that holds associative array code_2 => code_3
+     */
+    public static $mappings = [];
+    /**
      * @property $cache_dir path to cached file
      */
     private static $cache_dir = __DIR__ . '/data/cache.php';
@@ -195,9 +199,11 @@ class CountryNames
      */
     private static function _mappings($code)
     {
-        $data = file_get_contents(__DIR__ . '/data/mappings.json');
-        $mappings = json_decode($data, true);
-        return isset($mappings[$code]) ? $mappings[$code]: null;
+        $data_dir = __DIR__ . '/data/mappings.json';
+        if (! is_array(self::$mappings) || ! self::$mappings)
+            self::$mappings = json_decode(file_get_contents($data_dir), true);
+
+        return isset(self::$mappings[$code]) ? self::$mappings[$code]: null;
     }
 
     /**
