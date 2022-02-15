@@ -1,5 +1,5 @@
 <?php 
-namespace CountryNames;
+namespace CountryNamesLibrary;
 
 class CountryNames
 {

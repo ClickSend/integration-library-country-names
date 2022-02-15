@@ -1,10 +1,10 @@
 {
-    "name": "eissaweb/countrynames",
+    "name": "clicksend/integration-library-country-names",
     "description": "Utility library to turn country names into ISO two-letter codes.",
     "type": "library",
     "autoload": {
         "psr-4": {
-            "CountryNames\\": "lib/"
+            "CountryNamesLibrary\\": "lib/"
         }
     },
     "authors": [
