@@ -4,7 +4,7 @@ this library is the PHP clone of the python library: alephdata/countrynames/
   * PHP `7.0` and later.
   * Extensions: intl, yaml, mbstring, json.
 
-## Tested on PHP: `7.0,` `7.2`, `7.4`, `8.1`
+## Tested on PHP: `7.0`, `7.2`, `7.4`, `8.1`
 
 # Installation 
 
