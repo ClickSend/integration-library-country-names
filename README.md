@@ -2,7 +2,7 @@ Utility library to turn country names into ISO two-letter codes.
 this library is the PHP clone of the python library: alephdata/countrynames/
 # Requirements
   * PHP `7.0` and later.
-  * Extensions: intl, yaml, mbstring.
+  * Extensions: intl, yaml, mbstring, json.
 
 ## Tested on PHP: `7.0,` `7.2`, `7.4`, `8.1`
 
@@ -60,4 +60,13 @@ var_dump('DE' == CountryNames::to_code('Bundesrepublik Deutschlan', $fuzzy=true)
 var_dump('DE' == CountryNames::to_code('DE'));
 var_dump('DEU' == CountryNames::to_code_3('Germany'));
 
+```
+
+## Unit Test
+To unit test run these commands, you need php version >= 7.3
+
+```bash 
+composer install 
+
+./vendor/bin/phpunit test
 ```
