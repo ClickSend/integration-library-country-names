@@ -1,5 +1,10 @@
 Utility library to turn country names into ISO two-letter codes.
 this library is the PHP clone of the python library: alephdata/countrynames/
+# Requirements
+  * PHP 7.0 and later
+  * Extensions: intl, yaml, mbstring.
+
+## Tested on PHP: `7.0,` `7.2`, `7.4`, `8.1`
 
 # Installation 
 
