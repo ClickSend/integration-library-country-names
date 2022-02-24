@@ -61,6 +61,12 @@ var_dump('DE' == CountryNames::to_code('DE'));
 var_dump('DEU' == CountryNames::to_code_3('Germany'));
 
 ```
+## Reloading data/deleting cache
+If you updated the data.yaml file, then you need to delete the cache to reload the newly updated data, call this method once for every update:
+```php 
+CountryNames::_delete_cache();
+```
+
 
 ## Unit Test
 To unit test run these commands, you need php version >= 7.3
